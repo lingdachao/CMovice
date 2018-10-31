@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch.png" translatesAutoresizingMaskIntoConstraints="NO" id="qe0-DM-Rud">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoa.png" translatesAutoresizingMaskIntoConstraints="NO" id="Q3V-EL-FJC">
+                    <rect key="frame" x="160" y="129" width="160" height="160"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Q3V-EL-FJC" secondAttribute="height" id="Z9C-KO-QUL"/>
+                        <constraint firstAttribute="width" constant="160" id="uuX-Hw-GtU"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Q3V-EL-FJC" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="1LL-lo-E3U"/>
+                <constraint firstAttribute="bottom" secondItem="qe0-DM-Rud" secondAttribute="bottom" id="1qT-E7-grU"/>
+                <constraint firstItem="Q3V-EL-FJC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="129" id="2xm-gl-TNj"/>
+                <constraint firstItem="qe0-DM-Rud" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jfh-9d-nrP"/>
+                <constraint firstItem="qe0-DM-Rud" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lhJ-nT-59S"/>
+                <constraint firstAttribute="trailing" secondItem="qe0-DM-Rud" secondAttribute="trailing" id="vkV-DK-Li0"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="548" y="455"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="launch.png" width="1242" height="2208"/>
+        <image name="logoa.png" width="1024" height="1024"/>
+    </resources>
+</document>
