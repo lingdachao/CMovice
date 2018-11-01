@@ -10,6 +10,7 @@ import Detail from './page/Detail';
 import List from './page/List';
 import Advice from './page/Advice';
 import Contact from './page/Contact'
+import Search from './page/Search';
 
 const navigationOptions = ({navigation}) => ({
     title:  navigation.state.routeName,
@@ -40,9 +41,18 @@ const MeStack = createStackNavigator({
     navigationOptions,
 });
 
+const SearchStack = createStackNavigator({
+    Search: { screen: Search },
+    List: {screen: List},
+    Detail: { screen: Detail },
+},{
+    navigationOptions,
+});
+
 export default createBottomTabNavigator(
     {
       Home: { screen: HomeStack },
+      Search: { screen: SearchStack },
       Me: { screen: MeStack },
     },
     {
@@ -54,6 +64,8 @@ export default createBottomTabNavigator(
             iconName = `ios-home`;
           } else if (routeName === 'Me') {
             iconName = `ios-person`;
+          } else if ( routeName === 'Search') {
+            iconName = `ios-search`;
           }
           return <Ionicons name={iconName} size={25} color={tintColor} />;
         },
@@ -64,6 +76,8 @@ export default createBottomTabNavigator(
                 name = `首页`;
             } else if (routeName === 'Me') {
                 name = `我的`;
+            } else if (routeName === 'Search') {
+                name = `搜索`;
             }
             return <Text style={{color: tintColor}}>{name}</Text>
         },

@@ -12,6 +12,7 @@ const mainColor = '#f4511e'
 const styles = StyleSheet.create({
     center: {justifyContent: 'center', alignItems: 'center'},
     row: {flexDirection: 'row'}, 
+    wrap: {flexWrap: "wrap"},
     flex1: {flex: 1},
     flex2: {flex: 2},
     flex3: {flex: 3},

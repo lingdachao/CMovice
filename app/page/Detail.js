@@ -15,13 +15,16 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 import { getDetail } from '../actions/homeAct'
 import s,{ maxWidth, mainColor, maxHeight } from '../styles'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Toast, {DURATION} from 'react-native-easy-toast'
+import Toast from 'react-native-easy-toast'
 import Storage from '../util/Storage'
+import Video from 'react-native-video';
 
 const MYLOVELIST = 'myLoveList'
 export default class Detail extends Component {
@@ -38,7 +41,9 @@ export default class Detail extends Component {
     this.state = {
         data: {},
         isLove: false,
-        loadding: true
+        loadding: true,
+        imgVisible: false,
+        selectImg: null
     }
   }
 
@@ -100,7 +105,7 @@ export default class Detail extends Component {
   }
 
   render() {
-    const { images = {}, title, wish_count, genres = [], mainland_pubdate, rating ={}, summary } = this.state.data
+    const { images = {}, title, wish_count, genres = [], mainland_pubdate, rating ={}, summary, blooper_urls= [],photos = [],casts = [],popular_reviews = [] } = this.state.data
     let genresStr = '';
     genres.map((item) => {
       genresStr += ` ${item} /`
@@ -118,7 +123,7 @@ export default class Detail extends Component {
                  <Ionicons name={'ios-heart-empty'} size={30} color={'#fff'} /> }
               </TouchableOpacity>
             </View>
-            <View style={{marginTop: -20,backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: 1000}}>
+            <View style={{marginTop: -20,backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20}}>
                 <View style={[{height: 150, width: maxWidth, marginTop: -60}, s.row]}>
                     <View style={[s.flex4,{alignItems: 'center'}]}>
                       <View style={[s.center,{borderRadius: 5, backgroundColor: '#fff', height: 146, width: 100}]}>
@@ -137,15 +142,113 @@ export default class Detail extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{marginTop: 20, marginHorizontal: 20}}>
-                  <Text style={{fontSize: 26, fontWeight: '600'}}>简介</Text>
-                  <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
-                  <Text style={{marginTop: 20, lineHeight: 20, }}>{summary}</Text>
-                </View>
+                <ScrollView style={{width: maxWidth, height: maxHeight - 270, backgroundColor: '#fff'}}>
+                  <View style={{marginTop: 20, marginHorizontal: 20}}>
+                    <Text style={{fontSize: 26, fontWeight: '600'}}>简介</Text>
+                    <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
+                    <Text style={{marginTop: 20, lineHeight: 20, }}>{summary}</Text>
+                  </View>
+                  { blooper_urls.length ? <View style={{marginTop: 30, marginHorizontal: 20}}>
+                    <Text style={{fontSize: 26, fontWeight: '600'}}>视频</Text>
+                    <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
+                    <ScrollView style={[{height: 140}]} horizontal showsHorizontalScrollIndicator={false}>
+                      {
+                        blooper_urls.map((item,i) => {
+                          return(
+                            <Video  source={{uri: item}}   
+                                    ref={(ref) => {
+                                      this.player = ref
+                                    }}       
+                                    key = {i}
+                                    controls={true}
+                                    paused={true}                      
+                                    style={{marginHorizontal: 10, height: 130, width: 230, marginTop: 10}} />
+                          )
+                        })
+                      }
+                    </ScrollView>
+                  </View> : null }
+                  {
+                    photos.length ? <View style={{marginTop: 30, marginHorizontal: 20}}>
+                      <Text style={{fontSize: 26, fontWeight: '600'}}>海报</Text>
+                      <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
+                      <ScrollView style={[{height: 140}]} horizontal showsHorizontalScrollIndicator={false}>
+                      {
+                        photos.map((item,i) => {
+                          return(
+                            <TouchableOpacity key = {i}   onPress={() => this.setState({ imgVisible: true, selectImg: {uri: item.image} })}>
+                                <Image  source={{uri: item.image}}                  
+                                        style={{marginHorizontal: 10, height: 130, width: 230, marginTop: 10}} />
+                            </TouchableOpacity>
+                          )
+                        })
+                      }
+                      </ScrollView>
+                    </View> : null
+                  }
+                  {
+                    casts.length ? <View style={{marginTop: 30, marginHorizontal: 20}}>
+                      <Text style={{fontSize: 26, fontWeight: '600'}}>演员</Text>
+                      <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
+                      <ScrollView style={[{height: 150}]} horizontal showsHorizontalScrollIndicator={false}>
+                      {
+                        casts.map((item,i) => {
+                          return(
+                            <TouchableOpacity key = {i}   
+                                              style={[s.center,{marginTop: 10}]}
+                                              onPress={() => this.setState({ imgVisible: true, selectImg: {uri: item.avatars && item.avatars.small} })}>
+                                <Image  source={{uri: item.avatars && item.avatars.small}}                  
+                                        style={{marginHorizontal: 6, height: 120, width: 86}} />
+                                <Text style={{fontSize: 12,marginTop:3}}>{`${item.name}`}</Text>
+                            </TouchableOpacity>
+                          )
+                        })
+                      }
+                      </ScrollView>
+                    </View> : null
+                  }
+                  {
+                    popular_reviews.length ? <View style={{marginTop: 30, marginHorizontal: 20}}>
+                      <Text style={{fontSize: 26, fontWeight: '600'}}>热评</Text>
+                      <View style={{height:1, backgroundColor:'rgba(0,0,0,0.1)',marginTop: 8}}></View>
+                      {
+                        popular_reviews.map((item,i) => {
+                          return(
+                            <View key={i}>
+                                <View style={[s.row,{marginTop: 10}]}>
+                                    <Image style={{height: 30, width: 30, borderRadius: 3}}
+                                           source={{uri: item.author && item.author.avatar}}/>
+                                    <Text style={{marginLeft: 10, marginTop: 6}}>{item.author && item.author.name}</Text>
+                                </View>
+                                <Text style={{marginTop: 10,marginLeft: 40, lineHeight: 20}}>{item.summary}</Text>
+                                <View style={{marginTop: 3,marginLeft: 40, height:1 ,backgroundColor:'rgba(0,0,0,0.1)'}}></View>
+                            </View>
+                          )
+                        })
+                      }
+                    </View> : null
+                  }
+                  <View style={{height:100}}></View>
+                </ScrollView>
             </View>
           </View>
           <Toast ref="toast"/>
           {this.state.loadding ?  <ActivityIndicator size="large" color={mainColor} style={{position:'absolute',left: maxWidth/2,top:maxHeight/2}}/> : null}
+          <Modal
+              animationType="fade"
+              transparent={true}
+              visible={this.state.imgVisible}
+              onRequestClose={() => {
+              }}
+            >
+              <TouchableHighlight style={[{width: maxWidth, height: maxHeight, backgroundColor: 'rgba(0,0,0,0.8)'}, s.center]}
+                                onPress={() => {
+                                        this.setState({ imgVisible: false })
+                                      }}>
+                   <Image source={this.state.selectImg} 
+                          style={{width: maxWidth, height: maxWidth*9/16,backgroundColor:'#fff'}}/>
+              </TouchableHighlight>
+          </Modal>
         </View>
     );
   }

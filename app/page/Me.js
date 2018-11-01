@@ -54,6 +54,9 @@ export default class Me extends Component {
   _pressHeadImg() {
     const options = {
       title: '选择相片',
+      cancelButtonTitle: '取消',
+      takePhotoButtonTitle: '相机',
+      chooseFromLibraryButtonTitle: '相册',
       storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -92,6 +95,8 @@ export default class Me extends Component {
       routeName = 'Advice'
     }else if (i == 2){
       routeName = 'Contact'
+    }else if (i == 3){
+      return
     }
     this.props.navigation.navigate(routeName,params)
   }
@@ -109,13 +114,13 @@ export default class Me extends Component {
           </View>
           <View style={{marginTop: 20}}>
             {
-              ['我的收藏', '我的建议', '联系我们'].map((item,i) => {
+              ['我的收藏', '我的建议', '联系我们','版本号：v1.0.1'].map((item,i) => {
                   return(
                     <TouchableOpacity key={i} 
                                       style={[{height: 60, width: maxWidth, backgroundColor: '#fff',marginBottom:1, justifyContent: 'space-between' ,alignItems: 'center'}, s.row]}
                                       onPress={this._pressCell.bind(this,i)}>
                       <Text style={{marginLeft: 20, fontSize: 16}}>{item}</Text>
-                      <Text style={{marginRight: 20, fontWeight: '600'}}>></Text>
+                      { i != 3 ? <Text style={{marginRight: 20, fontWeight: '600'}}>></Text> :null }
                     </TouchableOpacity>
                   )
               })
